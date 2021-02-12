@@ -1,0 +1,60 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{outlines}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=cyan,
+    filecolor=blue,      
+    urlcolor=blue,
+}
+\urlstyle{same}
+
+\usepackage{enumitem}
+\setenumerate[1]{label=\Roman*.}
+\setenumerate[2]{label=\Alph*.}
+\setenumerate[3]{label=\roman*.}
+\setenumerate[4]{label=\alph*.}
+
+\title{3 Buddy Problem}
+
+\begin{document}
+
+\maketitle
+
+\section{The Problem}
+Everyone needs a coding buddy. So we have a column associated with each user called “Buddy”. But now we need a group to have 3 people. How do we represent this group of three people?
+
+\section{Some Solutions}
+\begin{outline}[enumerate]
+    \1 Add a column for the third person
+        \2 What happens if we need to put a fourth person? fifth?
+        \2 Do we really want so many empty cells associated with each of the other pairs?
+            \3 Let’s try and avoid nulls
+    \1 Comma separate the buddies columns
+        \2 Not atomic
+            \3 \href{https://www.1keydata.com/database-normalization/first-normal-form-1nf.php#:~:text=An\%20atomic\%20value\%20is\%20a,columns\%20that\%20are\%20closely\%20related.}{1keydata.com}
+            \3 \href{https://dba.stackexchange.com/questions/2342/what-is-atomic-relation-in-first-normal-form}{dba.stackexchange}
+    \1 Create a new row for every pair within the new group
+        \2 This is going to get really ugly really quickly. Imagine we need 1 group with 4 people. 8 rows?
+        \2 $\dfrac{n(n-1)}{2}$ pairs for any group of size n.
+        \2 $O(n^2)$ space for this task should be viewed as unacceptable.
+    \1 Create a new column called “Team\_Name”
+        \2 Create a new table, “Teams'' with appropriate attributes and a primary key
+        \2 There will be a one to many relationship between the CLASS\_ROASTER table and the TEAMS table via a foreign key relationship.
+        \2 We should note that the team does not need to know who belongs to it
+\end{outline}
+
+\section{My Opionon}  I believe solution IV to be the correct solution. It will allow us to maintain a scalable, robust, minimal to no redundancies, and reusable design. It is now very easy and hopefully obvious how to add information about the teams going forward.
+
+
+
+
+
+  
+
+
+
+
+\end{document}
